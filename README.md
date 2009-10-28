@@ -2,11 +2,11 @@ Overview
 ========
 
 `Rack::MobileDetect` detects mobile devices and adds an
-`X_MOBILE_DEVICE` header to the request is a mobile device is
+`X_MOBILE_DEVICE` header to the request if a mobile device is
 detected.  The strategy for detecting a mobile device is as
 follows:
 
-1. Search for a 'targeted' mobile device. A targeted mobile device is
+* Search for a 'targeted' mobile device. A targeted mobile device is
   a device you may want to provide special content to because it has
   advanced capabilities - for example and iPhone or Android phone.
   Targeted mobile devices are detected via a `Regexp` applied against
@@ -17,19 +17,19 @@ follows:
   expression will be the value passed in the `X_MOBILE_DEVICE` header,
   i.e.: `X_MOBILE_DEVICE: iPhone`
 
-1. Search for a UAProf device. More about UAProf detection can be
+* Search for a UAProf device. More about UAProf detection can be
   found [here](http://www.developershome.com/wap/detection/detection.asp?page=profileHeader).
 
   If a UAProf device is detected, it will have `X_MOBILE_DEVICE: true`
 
-1. Look at the HTTP Accept header to see if the device accepts WAP
+* Look at the HTTP Accept header to see if the device accepts WAP
   content. More information about this form of detection is found
   [here](http://www.developershome.com/wap/detection/detection.asp?page=httpHeaders).
 
   Any device detected using this method will have `X_MOBILE_DEVICE`
   set to 'true'.
 
-1. Use a 'catch-all' regex. The current catch-all regex was taken from
+* Use a 'catch-all' regex. The current catch-all regex was taken from
   the [mobile-fu project](http://github.com/brendanlim/mobile-fu)
 
   Any device detected using this method will have `X_MOBILE_DEVICE: true`
