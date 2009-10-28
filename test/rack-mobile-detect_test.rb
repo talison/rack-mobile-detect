@@ -4,9 +4,9 @@ require 'shoulda'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'mobile-detect'
+require 'rack-mobile-detect'
 
-class TestMobileDevice < Test::Unit::TestCase
+class TestRackMobileDetect < Test::Unit::TestCase
 
   context "An app with mobile-device defaults" do
     setup do

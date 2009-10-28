@@ -67,11 +67,11 @@ module Rack
   # 'X_MOBILE_DEVICE' that is inserted into the request headers.
   #
   # Usage:
-  # use Rack::MobileDevice
+  # use Rack::MobileDetect
   #
   # This allows you to do mobile device detection with the defaults.
   #
-  # use Rack::MobileDevice, :targeted => /SCH-\w*$|[Bb]lack[Bb]erry\w*/
+  # use Rack::MobileDetect, :targeted => /SCH-\w*$|[Bb]lack[Bb]erry\w*/
   #
   # In this usage you can set the value of the regular expression used
   # to target particular devices. This regular expression captures
@@ -79,13 +79,15 @@ module Rack
   # with the user-agent: 'BlackBerry9000/4.6.0.167 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/102'
   # connects, the value of X_MOBILE_DEVICE will be set to 'BlackBerry9000'
   #
-  # use Rack::MobileDevice, :catchall => /mydevice/i
+  # use Rack::MobileDetect, :catchall => /mydevice/i
   #
   # This allows you to limit the catchall expression to only the
   # device list you choose.
   #
   # See the unit test source code for more info.
   #
+  # Author: Tom Alison (tom.alison at gmail.com)
+  # License: MIT
   #
   class MobileDetect
     X_HEADER = 'X_MOBILE_DEVICE'
