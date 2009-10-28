@@ -1,0 +1,146 @@
+# The MIT License
+#
+# Copyright (c) 2009 Tom Alison
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+module Rack
+
+  # Rack::MobileDetect detects mobile devices and adds an
+  # X_MOBILE_DEVICE header to the request is a mobile device is
+  # detected.  The strategy for detecting a mobile device is as
+  # follows:
+  #
+  # 1. Search for a 'targeted' mobile device. A targeted mobile device
+  # is a mobile device you may want to provide special content to
+  # because it has advanced capabilities - for example and iPhone or
+  # Android device. Targeted mobile devices are detected via a Regexp
+  # applied against the HTTP User-Agent header.
+  #
+  # By default, the targeted devices are iPhone, Android and iPod. If
+  # a targeted device is detected, the token match from the regular
+  # expression will be the value passed in the X_MOBILE_DEVICE header,
+  # i.e.: X_MOBILE_DEVICE: iPhone
+  #
+  # 2. Search for a UAProf device. More about UAProf detection can be
+  # found here:
+  # http://www.developershome.com/wap/detection/detection.asp?page=profileHeader
+  #
+  # If a UAProf device is detected, the value of X_MOBILE_DEVICE is
+  # simply set to 'true'.
+  #
+  # 3. Look at the HTTP Accept header to see if the device accepts WAP
+  # content. More information about this form of detection is found
+  # here:
+  # http://www.developershome.com/wap/detection/detection.asp?page=httpHeaders
+  #
+  # Any device detected using this method will have X_MOBILE_DEVICE
+  # set to 'true'.
+  #
+  # 4. Use a 'catch-all' regex. The current catch-all regex was taken
+  # from the mobile-fu project. See:
+  # http://github.com/brendanlim/mobile-fu
+  #
+  # Any device detected using this method will have X_MOBILE_DEVICE
+  # set to 'true'.
+  #
+  # If none of the detection methods detected a mobile device, the
+  # X_MOBILE_DEVICE header will be absent.
+  #
+  # Note that Rack::MobileDetect::X_HEADER holds the string
+  # 'X_MOBILE_DEVICE' that is inserted into the request headers.
+  #
+  # Usage:
+  # use Rack::MobileDevice
+  #
+  # This allows you to do mobile device detection with the defaults.
+  #
+  # use Rack::MobileDevice, :targeted => /SCH-\w*$|[Bb]lack[Bb]erry\w*/
+  #
+  # In this usage you can set the value of the regular expression used
+  # to target particular devices. This regular expression captures
+  # Blackberry and Samsung SCH-* model phones. For example, if a phone
+  # with the user-agent: 'BlackBerry9000/4.6.0.167 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/102'
+  # connects, the value of X_MOBILE_DEVICE will be set to 'BlackBerry9000'
+  #
+  # use Rack::MobileDevice, :catchall => /mydevice/i
+  #
+  # This allows you to limit the catchall expression to only the
+  # device list you choose.
+  #
+  # See the unit test source code for more info.
+  #
+  #
+  class MobileDetect
+    X_HEADER = 'X_MOBILE_DEVICE'
+
+    # Users can pass in a :targeted option, which should be a Regexp
+    # specifying which user-agent agent tokens should be specifically
+    # captured and passed along in the X_MOBILE_DEVICE variable.
+    #
+    # The :catchall option allows specifying a Regexp to catch mobile
+    # devices that fall through the other tests.
+    def initialize(app, options = {})
+      @app = app
+
+      # @ua_targeted holds a list of user-agent tokens that are
+      # captured. Captured tokens are passed through in the
+      # environment variable. These are special mobile devices that
+      # may have special rendering capabilities for you to target.
+      @regex_ua_targeted = options[:targeted] || /iphone|android|ipod/i
+
+      # Match mobile content in Accept header:
+      # http://www.developershome.com/wap/detection/detection.asp?page=httpHeaders
+      @regex_accept = /vnd\.wap/i
+
+      # From mobile-fu: http://github.com/brendanlim/mobile-fu
+      @regex_ua_catchall = options[:catchall] ||
+        Regexp.new('palm|palmos|palmsource|iphone|blackberry|nokia|phone|midp|mobi|pda|' +
+                   'wap|java|nokia|hand|symbian|chtml|wml|ericsson|lg|audiovox|motorola|' +
+                   'samsung|sanyo|sharp|telit|tsm|mobile|mini|windows ce|smartphone|' +
+                   '240x320|320x320|mobileexplorer|j2me|sgh|portable|sprint|vodafone|' +
+                   'docomo|kddi|softbank|pdxgw|j-phone|astel|minimo|plucker|netfront|' +
+                   'xiino|mot-v|mot-e|portalmmm|sagem|sie-s|sie-m|android|ipod', true)
+    end
+
+    # Because the web app may be multithreaded, this method must
+    # create new Regexp instances to ensure thread safety.
+    def call(env)
+      device = nil
+      user_agent = env.fetch('HTTP_USER_AGENT', '')
+
+      # First check for targeted devices and store the device token
+      device = Regexp.new(@regex_ua_targeted).match(user_agent)
+
+      # Fall-back on UAProf detection
+      # http://www.developershome.com/wap/detection/detection.asp?page=profileHeader
+      device ||= env.keys.detect { |k| k.start_with?('HTTP_') && k.end_with?('_PROFILE') } != nil
+
+      # Fall back to Accept header detection
+      device ||= Regexp.new(@regex_accept).match(env.fetch('HTTP_ACCEPT','')) != nil
+
+      # Fall back on catch-all User-Agent regex
+      device ||= Regexp.new(@regex_ua_catchall).match(user_agent) != nil
+
+      env[X_HEADER] = device.to_s if device
+
+      @app.call(env)
+    end
+  end
+end
