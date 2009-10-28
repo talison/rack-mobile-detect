@@ -6,38 +6,46 @@ Overview
 detected.  The strategy for detecting a mobile device is as
 follows:
 
-* Search for a 'targeted' mobile device. A targeted mobile device is
-  a device you may want to provide special content to because it has
-  advanced capabilities - for example and iPhone or Android phone.
-  Targeted mobile devices are detected via a `Regexp` applied against
-  the HTTP User-Agent header.
+### Targeted Detection ###
 
-  By default, the targeted devices are iPhone, Android and iPod. If
-  a targeted device is detected, the token match from the regular
-  expression will be the value passed in the `X_MOBILE_DEVICE` header,
-  i.e.: `X_MOBILE_DEVICE: iPhone`
+Search for a 'targeted' mobile device. A targeted mobile device is a
+device you may want to provide special content to because it has
+advanced capabilities - for example and iPhone or Android phone.
+Targeted mobile devices are detected via a `Regexp` applied against
+the HTTP User-Agent header.
 
-* Search for a UAProf device. More about UAProf detection can be
-  found [here](http://www.developershome.com/wap/detection/detection.asp?page=profileHeader).
+By default, the targeted devices are iPhone, Android and iPod. If a
+targeted device is detected, the token match from the regular
+expression will be the value passed in the `X_MOBILE_DEVICE` header,
+i.e.: `X_MOBILE_DEVICE: iPhone`
 
-  If a UAProf device is detected, it will have `X_MOBILE_DEVICE: true`
 
-* Look at the HTTP Accept header to see if the device accepts WAP
-  content. More information about this form of detection is found
-  [here](http://www.developershome.com/wap/detection/detection.asp?page=httpHeaders).
+### UAProf Detection ###
 
-  Any device detected using this method will have `X_MOBILE_DEVICE`
-  set to 'true'.
+Search for a UAProf device. More about UAProf detection can be found
+[here](http://www.developershome.com/wap/detection/detection.asp?page=profileHeader).
 
-* Use a 'catch-all' regex. The current catch-all regex was taken from
-  the [mobile-fu project](http://github.com/brendanlim/mobile-fu)
+If a UAProf device is detected, it will have `X_MOBILE_DEVICE: true`
 
-  Any device detected using this method will have `X_MOBILE_DEVICE: true`
+### Accept Header Detection ###
+
+Look at the HTTP Accept header to see if the device accepts WAP
+content. More information about this form of detection is found
+[here](http://www.developershome.com/wap/detection/detection.asp?page=httpHeaders).
+
+Any device detected using this method will have `X_MOBILE_DEVICE: true`
+
+### Catchall Detection ###
+
+Use a 'catch-all' regex. The current catch-all regex was taken from
+the [mobile-fu project](http://github.com/brendanlim/mobile-fu)
+
+Any device detected using this method will have `X_MOBILE_DEVICE: true`
 
 Notes
 =====
 
-If none of the detection methods detected a mobile device, the
+If none of the detection methods detect a mobile device, the
 `X_MOBILE_DEVICE` header will be _absent_.
 
 Note that `Rack::MobileDetect::X_HEADER` holds the string
