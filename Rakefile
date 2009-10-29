@@ -12,7 +12,7 @@ begin
     gem.email = "accounts@majortom.fastmail.us"
     gem.homepage = "http://github.com/talison/rack-mobile-detect"
     gem.authors = ["Tom Alison"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
