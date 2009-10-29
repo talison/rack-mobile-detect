@@ -21,7 +21,9 @@
 # THE SOFTWARE.
 
 module Rack
-
+  #
+  # Full project at http://github.com/talison/rack-mobile-detect
+  #
   # Rack::MobileDetect detects mobile devices and adds an
   # X_MOBILE_DEVICE header to the request if a mobile device is
   # detected.  The strategy for detecting a mobile device is as
