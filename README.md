@@ -1,9 +1,14 @@
+Install
+=======
+
+    sudo gem install rack-mobile-detect -s http://gemcutter.org
+
 Overview
 ========
 
-`Rack::MobileDetect` detects mobile devices and adds an
-`X_MOBILE_DEVICE` header to the request if a mobile device is
-detected. The strategy for detecting a mobile device is as
+`Rack::MobileDetect` is Rack middleware for ruby webapps that detects
+mobile devices. It adds an `X_MOBILE_DEVICE` header to the request if
+a device is detected. The strategy for detecting a mobile device is as
 follows:
 
 ### Targeted Detection ###
@@ -72,4 +77,13 @@ Configuration/CLDC-1.1 VendorID/102' connects, the value of
 This allows you to limit the catchall expression to only the device
 list you choose.
 
-See the unit test source code for more info.
+Utils
+=====
+
+A Sinatra app called echo_env.rb is available in the
+[util/](http://github.com/talison/rack-mobile-detect/tree/master/util/)
+directory. Hit this app with a mobile device to see the various HTTP
+headers and whether or not the `X_MOBILE_DEVICE` header is added by
+`Rack::MobileDetect`.
+
+See the [unit test source code](http://github.com/talison/rack-mobile-detect/tree/master/test/) for more info.
