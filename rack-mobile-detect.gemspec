@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Tom Alison", "Michael Wood"]
-  s.date = %q{2009-10-29}
+  s.authors = ["Tom Alison"]
+  s.date = %q{2009-10-30}
   s.description = %q{Rack::MobileDetect detects mobile devices and adds an
     X_MOBILE_DEVICE header to the request if a mobile device is detected. Specific
     devices can be targeted with custom Regexps.}
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "TODO",
      "VERSION.yml",
      "lib/rack-mobile-detect.rb",
+     "rack-mobile-detect.gemspec",
      "test/helper.rb",
      "test/test_rack-mobile-detect.rb",
      "util/echo_env.rb"
