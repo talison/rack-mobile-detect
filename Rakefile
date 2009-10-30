@@ -11,7 +11,7 @@ begin
     devices can be targeted with custom Regexps.}
     gem.email = "accounts@majortom.fastmail.us"
     gem.homepage = "http://github.com/talison/rack-mobile-detect"
-    gem.authors = ["Tom Alison"]
+    gem.authors = ["Tom Alison, Michael Wood"]
     gem.add_development_dependency "shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
