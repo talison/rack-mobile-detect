@@ -134,7 +134,7 @@ module Rack
 
       # Fall-back on UAProf detection
       # http://www.developershome.com/wap/detection/detection.asp?page=profileHeader
-      device ||= env.keys.detect { |k| k.match(/^(HTTP_)(.*)(_PROFILE)$/) } != nil
+      device ||= env.keys.detect { |k| k.match(/^HTTP(.*)_PROFILE$/) } != nil
 
       # Fall back to Accept header detection
       device ||= Regexp.new(@regex_accept).match(env.fetch('HTTP_ACCEPT','')) != nil
