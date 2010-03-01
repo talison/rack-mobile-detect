@@ -77,6 +77,11 @@ Configuration/CLDC-1.1 VendorID/102' connects, the value of
 This allows you to limit the catchall expression to only the device
 list you choose.
 
+		use Rack::MobileDetect, :redirect_to => '/mobile'
+		
+This allows you to choose a custom redirect path
+
+
 Utils
 =====
 
