@@ -121,6 +121,8 @@ module Rack
                    '240x320|320x320|mobileexplorer|j2me|sgh|portable|sprint|vodafone|' +
                    'docomo|kddi|softbank|pdxgw|j-phone|astel|minimo|plucker|netfront|' +
                    'xiino|mot-v|mot-e|portalmmm|sagem|sie-s|sie-m|android|ipod', true)
+      
+      @redirect_to = options[:redirect_to]
     end
 
     # Because the web app may be multithreaded, this method must
@@ -142,7 +144,10 @@ module Rack
       # Fall back on catch-all User-Agent regex
       device ||= Regexp.new(@regex_ua_catchall).match(user_agent) != nil
 
-      env[X_HEADER] = device.to_s if device
+      if device
+        env[X_HEADER] = device.to_s 
+        return [301, {'Location' => @redirect_to}, []] if @redirect_to
+      end
 
       @app.call(env)
     end
