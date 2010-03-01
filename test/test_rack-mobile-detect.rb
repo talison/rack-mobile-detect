@@ -121,6 +121,23 @@ class TestRackMobileDetect < Test::Unit::TestCase
       assert !env.key?(x_mobile)
     end
   end
+  
+  context "An app with a custom redirect" do 
+    setup do
+      @app = test_app
+      # Custom redirect
+      @rack = Rack::MobileDetect.new(@app, :redirect_to => '/mobile')
+    end
+    
+    should "redirect to mobile website" do
+      env = test_env({ 'HTTP_USER_AGENT' => iphone })
+      status, headers, body = @rack.call(env)
+      assert_equal 'iPhone', env[x_mobile]
+      
+      assert_equal(301, status)
+      assert_equal({'Location' => "/mobile"}, headers)
+    end
+  end
 
   # Expected x_header
   def x_mobile
