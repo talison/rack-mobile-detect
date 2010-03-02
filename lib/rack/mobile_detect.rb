@@ -143,10 +143,12 @@ module Rack
 
       # Fall back on catch-all User-Agent regex
       device ||= Regexp.new(@regex_ua_catchall).match(user_agent) != nil
-
+      
+      path = Rack::Utils.unescape(env['PATH_INFO'])
+          
       if device
         env[X_HEADER] = device.to_s 
-        return [301, {'Location' => @redirect_to}, []] if @redirect_to
+        return [301, {'Location' => @redirect_to}, []] if @redirect_to && path !~ /^#{@redirect_to}/
       end
 
       @app.call(env)
