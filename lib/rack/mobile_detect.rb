@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+require 'rack'
+
 module Rack
   #
   # Full project at http://github.com/talison/rack-mobile-detect
@@ -121,8 +123,11 @@ module Rack
                    '240x320|320x320|mobileexplorer|j2me|sgh|portable|sprint|vodafone|' +
                    'docomo|kddi|softbank|pdxgw|j-phone|astel|minimo|plucker|netfront|' +
                    'xiino|mot-v|mot-e|portalmmm|sagem|sie-s|sie-m|android|ipod', true)
-      
+
+      # A URL that specifies a single redirect-url for any device
       @redirect_to = options[:redirect_to]
+      # A mapping of devices to redirect URLs, for targeted devices
+      @redirect_map = options[:redirect_map]
     end
 
     # Because the web app may be multithreaded, this method must
@@ -143,15 +148,29 @@ module Rack
 
       # Fall back on catch-all User-Agent regex
       device ||= Regexp.new(@regex_ua_catchall).match(user_agent) != nil
-      
-      path = Rack::Utils.unescape(env['PATH_INFO'])
-          
+
       if device
-        env[X_HEADER] = device.to_s 
-        return [301, {'Location' => @redirect_to}, []] if @redirect_to && path !~ /^#{@redirect_to}/
+        device = device.to_s
+
+        env[X_HEADER] = device
+        redirect = check_for_redirect(device)
+
+        if redirect
+          path = Rack::Utils.unescape(env['PATH_INFO'])
+          return [301, {'Location' => redirect}, []] if redirect && path !~ /^#{redirect}/
+        end
       end
 
       @app.call(env)
+    end
+
+    # Checks to see if any redirect options were passed in
+    # and returns the appropriate redirect or nil (if no redirect requested)
+    def check_for_redirect(device)
+      # Find the device-specific redirect in the map, if exists
+      return @redirect_map[device] if @redirect_map && @redirect_map.has_key?(device)
+      # Return global redirect, or nil
+      return @redirect_to
     end
   end
 end
