@@ -3,6 +3,10 @@ Install
 
     sudo gem install rack-mobile-detect -s http://gemcutter.org
 
+In your code:
+
+    require 'rack-mobile-detect'
+
 Overview
 ========
 
