@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tom Alison"]
-  s.date = %q{2010-03-13}
+  s.date = %q{2010-03-14}
   s.description = %q{Rack::MobileDetect detects mobile devices and adds an
     X_MOBILE_DEVICE header to the request if a mobile device is detected. Specific
     devices can be targeted with custom Regexps and redirect support is available.}
