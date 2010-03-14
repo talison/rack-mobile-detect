@@ -5,7 +5,7 @@ Install
 
 In your code:
 
-    require 'rack-mobile-detect'
+    require 'rack/mobile-detect'
 
 Overview
 ========

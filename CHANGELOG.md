@@ -3,5 +3,6 @@
 * Added redirect_map option
 * Added dependency on rack
 * Added more test for redirect options
-* Renamed rb file to mobile-detect.rb
+* Updated dir structure: lib/rack-mobile-detect.rb -> lib/rack/mobile-detect.rb
+* Added note on require syntax: require 'rack/mobile-detect'
 * Updated tests, echo_env.rb to reference new file
