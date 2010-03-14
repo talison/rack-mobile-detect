@@ -102,7 +102,7 @@ key in the redirect_map should be the value of the matched pattern.
 This allows you to map targeted devices to specific URLs. Non-targeted
 mobile devices will redirect to the url specified by redirect_to.
 
-In the example above, BlackBerry's and iPhone's get redirected to
+In the example above, BlackBerrys and iPhones get redirected to
 device-specific URLs. All other mobile devices get redirected to
 '/mobile'.
 
