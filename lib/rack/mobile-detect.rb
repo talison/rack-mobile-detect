@@ -117,12 +117,12 @@ module Rack
 
       # From mobile-fu: http://github.com/brendanlim/mobile-fu
       @regex_ua_catchall = options[:catchall] ||
-        Regexp.new('palm|palmos|palmsource|iphone|blackberry|nokia|phone|midp|mobi|pda|' +
-                   'wap|java|nokia|hand|symbian|chtml|wml|ericsson|lg|audiovox|motorola|' +
-                   'samsung|sanyo|sharp|telit|tsm|mobile|mini|windows ce|smartphone|' +
-                   '240x320|320x320|mobileexplorer|j2me|sgh|portable|sprint|vodafone|' +
-                   'docomo|kddi|softbank|pdxgw|j-phone|astel|minimo|plucker|netfront|' +
-                   'xiino|mot-v|mot-e|portalmmm|sagem|sie-s|sie-m|android|ipod', true)
+        Regexp.new('palm|blackberry|nokia|phone|midp|mobi|symbian|chtml|ericsson|minimo|' +
+                   'audiovox|motorola|samsung|telit|upg1|windows ce|ucweb|astel|plucker|' +
+                   'x320|x240|j2me|sgh|portable|sprint|docomo|kddi|softbank|android|mmp|' +
+                   'pdxgw|netfront|xiino|vodafone|portalmmm|sagem|mot-|sie-|ipod|up\\.b|' +
+                   'webos|amoi|novarra|cdm|alcatel|pocket|ipad|iphone|mobileexplorer|' +
+                   'mobile', true)
 
       # A URL that specifies a single redirect-url for any device
       @redirect_to = options[:redirect_to]

@@ -1,3 +1,6 @@
+### 0.3.0: Mar 12, 2011 ###
+* Modified catch-all based: https://github.com/brendanlim/mobile-fu
+
 ### 0.2.0: Mar 14, 2010 ###
 * Added redirect_to option from github.com/joren
 * Added redirect_map option
