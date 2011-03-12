@@ -71,6 +71,10 @@ class TestRackMobileDetect < Test::Unit::TestCase
       @rack.call(env)
       assert_equal "true", env[x_mobile]
 
+      env = test_env({ 'HTTP_USER_AGENT' => webos })
+      @rack.call(env)
+      assert_equal "true", env[x_mobile]
+
       env = test_env({ 'HTTP_USER_AGENT' => 'opera' })
       @rack.call(env)
       assert !env.key?(x_mobile)
@@ -232,6 +236,10 @@ class TestRackMobileDetect < Test::Unit::TestCase
 
   def samsung
     'Mozilla/4.0 (compatible; MSIE 6.0; BREW 3.1.5; en )/800x480 Samsung SCH-U960'
+  end
+
+  def webos
+    'Mozilla/5.0 (webOS/1.4.0; U; en-US) AppleWebKit/532.2 (KHTML, like Gecko) Version/1.0 Safari/532.2 Pre/1.1'
   end
 
   # Our test web app. Doesn't do anything.

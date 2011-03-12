@@ -1,7 +1,7 @@
 Install
 =======
 
-    sudo gem install rack-mobile-detect -s http://gemcutter.org
+    sudo gem install rack-mobile-detect
 
 In your code:
 
