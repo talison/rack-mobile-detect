@@ -84,27 +84,29 @@ list you choose.
 Redirects
 =========
 
-    use Rack::MobileDetect, :redirect_to => '/mobile'
+    use Rack::MobileDetect, :redirect_to => 'http://m.example.com/'
 
 This allows you to choose a custom redirect path any time a mobile
 device is detected.
 
     use Rack::MobileDetect, :targeted => /BlackBerry|iPhone/,
-                            :redirect_map => { 'BlackBerry' => '/m/blackberry', 'iPhone' => '/m/iphone' }
+                            :redirect_map => { 'BlackBerry' => 'http://m.example.com/blackberry',
+                                               'iPhone' => 'http://m.example.com/iphone' }
 
 This allows you to map specific redirect URLs to targeted devices. The
 key in the redirect_map should be the value of the matched pattern.
 
     use Rack::MobileDetect, :targeted => /BlackBerry|iPhone/,
-                            :redirect_map => { 'BlackBerry' => '/m/blackberry', 'iPhone' => '/m/iphone' },
-                            :redirect_to => '/mobile'
+                            :redirect_map => { 'BlackBerry' => 'http://m.example.com/blackberry',
+                                               'iPhone' => 'http://m.example.com/iphone' },
+                            :redirect_to => 'http://m.example.com/'
 
 This allows you to map targeted devices to specific URLs. Non-targeted
 mobile devices will redirect to the url specified by redirect_to.
 
 In the example above, BlackBerrys and iPhones get redirected to
 device-specific URLs. All other mobile devices get redirected to
-'/mobile'.
+'http://m.example.com'.
 
 
 Utils

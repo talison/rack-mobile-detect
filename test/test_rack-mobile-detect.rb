@@ -130,7 +130,8 @@ class TestRackMobileDetect < Test::Unit::TestCase
     setup do
       @app = test_app
       # Custom redirect
-      @rack = Rack::MobileDetect.new(@app, :redirect_to => '/mobile')
+      @rack = Rack::MobileDetect.new(@app,
+                                     :redirect_to => 'http://m.example.com/')
     end
 
     should "redirect to mobile website" do
@@ -139,14 +140,17 @@ class TestRackMobileDetect < Test::Unit::TestCase
       assert_equal 'iPhone', env[x_mobile]
 
       assert_equal(301, status)
-      assert_equal({'Location' => "/mobile"}, headers)
+      assert_equal({'Location' => "http://m.example.com/"}, headers)
     end
   end
 
   context "An app with a custom redirect map" do
     setup do
       @app = test_app
-      redirects = { "myphone" => "/m/myphone", "yourphone" => "/m/yourphone" }
+      redirects = {
+        "myphone" => "http://m.example.com/myphone",
+        "yourphone" => "http://m.example.com/yourphone"
+      }
       # Target fake devices
       @rack = Rack::MobileDetect.new(@app,
                                      :targeted => /myphone|yourphone/,
@@ -159,7 +163,7 @@ class TestRackMobileDetect < Test::Unit::TestCase
       assert_equal 'myphone', env[x_mobile]
 
       assert_equal(301, status)
-      assert_equal({'Location' => "/m/myphone"}, headers)
+      assert_equal({'Location' => "http://m.example.com/myphone"}, headers)
 
 
       env = test_env({ 'HTTP_USER_AGENT' => 'yourphone sucks' })
@@ -167,7 +171,7 @@ class TestRackMobileDetect < Test::Unit::TestCase
       assert_equal 'yourphone', env[x_mobile]
 
       assert_equal(301, status)
-      assert_equal({'Location' => "/m/yourphone"}, headers)
+      assert_equal({'Location' => "http://m.example.com/yourphone"}, headers)
 
     end
 
@@ -183,12 +187,15 @@ class TestRackMobileDetect < Test::Unit::TestCase
   context "An app with a custom redirect map and redirect_to option" do
     setup do
       @app = test_app
-      redirects = { "myphone" => "/m/myphone", "yourphone" => "/m/yourphone" }
+      redirects = {
+        "myphone" => "http://m.example.com/myphone",
+        "yourphone" => "http://m.example.com/yourphone"
+      }
       # Target fake devices
       @rack = Rack::MobileDetect.new(@app,
                                      :targeted => /myphone|yourphone/,
                                      :redirect_map => redirects,
-                                     :redirect_to => '/m/genericdevice')
+                                     :redirect_to => 'http://m.example.com/genericdevice')
     end
 
     should "use the redirect value in the redirect map when targeted" do
@@ -197,7 +204,7 @@ class TestRackMobileDetect < Test::Unit::TestCase
       assert_equal 'myphone', env[x_mobile]
 
       assert_equal(301, status)
-      assert_equal({'Location' => "/m/myphone"}, headers)
+      assert_equal({'Location' => "http://m.example.com/myphone"}, headers)
 
     end
 
@@ -207,8 +214,9 @@ class TestRackMobileDetect < Test::Unit::TestCase
       assert_equal 'true', env[x_mobile]
 
       assert_equal(301, status)
-      assert_equal({'Location' => "/m/genericdevice"}, headers)
+      assert_equal({'Location' => "http://m.example.com/genericdevice"}, headers)
     end
+
   end
 
 
