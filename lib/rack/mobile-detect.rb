@@ -109,7 +109,7 @@ module Rack
       # captured. Captured tokens are passed through in the
       # environment variable. These are special mobile devices that
       # may have special rendering capabilities for you to target.
-      @regex_ua_targeted = options[:targeted] || /iphone|android|ipod/i
+      @regex_ua_targeted = options[:targeted] || /iphone|android|ipod|ipad/i
 
       # Match mobile content in Accept header:
       # http://www.developershome.com/wap/detection/detection.asp?page=httpHeaders
