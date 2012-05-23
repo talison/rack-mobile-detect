@@ -33,11 +33,11 @@ module Rack
   #
   # 1. Search for a 'targeted' mobile device. A targeted mobile device
   # is a mobile device you may want to provide special content to
-  # because it has advanced capabilities - for example and iPhone or
+  # because it has advanced capabilities - for example an iPad, iPhone or
   # Android device. Targeted mobile devices are detected via a Regexp
   # applied against the HTTP User-Agent header.
   #
-  # By default, the targeted devices are iPhone, Android and iPod. If
+  # By default, the targeted devices are iPhone, Android, iPad and iPod. If
   # a targeted device is detected, the token match from the regular
   # expression will be the value passed in the X_MOBILE_DEVICE header,
   # i.e.: X_MOBILE_DEVICE: iPhone
