@@ -26,6 +26,10 @@ class TestRackMobileDetect < Test::Unit::TestCase
       env = test_env({ 'HTTP_USER_AGENT' => android })
       @rack.call(env)
       assert_equal 'Android', env[x_mobile]
+
+      env = test_env({ 'HTTP_USER_AGENT' => ipad })
+      @rack.call(env)
+      assert_equal 'iPad', env[x_mobile]
     end
 
     should "detect UAProf device" do
@@ -226,6 +230,9 @@ class TestRackMobileDetect < Test::Unit::TestCase
   end
 
   # User agents for testing
+  def ipad
+    'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10'
+  end
   def ipod
     'Mozilla/5.0 (iPod; U; CPU iPhone OS 2_2 like Mac OS X; en-us) AppleWebKit/525.18.1 (KHTML, like Gecko) Version/3.1.1 Mobile/5G77 Safari/525.20'
   end
