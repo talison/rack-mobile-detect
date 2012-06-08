@@ -33,11 +33,11 @@ module Rack
   #
   # 1. Search for a 'targeted' mobile device. A targeted mobile device
   # is a mobile device you may want to provide special content to
-  # because it has advanced capabilities - for example and iPhone or
+  # because it has advanced capabilities - for example an iPad, iPhone or
   # Android device. Targeted mobile devices are detected via a Regexp
   # applied against the HTTP User-Agent header.
   #
-  # By default, the targeted devices are iPhone, Android and iPod. If
+  # By default, the targeted devices are iPhone, Android, iPad and iPod. If
   # a targeted device is detected, the token match from the regular
   # expression will be the value passed in the X_MOBILE_DEVICE header,
   # i.e.: X_MOBILE_DEVICE: iPhone
@@ -109,7 +109,7 @@ module Rack
       # captured. Captured tokens are passed through in the
       # environment variable. These are special mobile devices that
       # may have special rendering capabilities for you to target.
-      @regex_ua_targeted = options[:targeted] || /iphone|android|ipod/i
+      @regex_ua_targeted = options[:targeted] || /iphone|android|ipod|ipad/i
 
       # Match mobile content in Accept header:
       # http://www.developershome.com/wap/detection/detection.asp?page=httpHeaders
