@@ -1,5 +1,5 @@
 ### 0.4.0: Jun 7, 2012 ###
-* Added iPad detection, thank you sansari (https://github.com/sansari)
+* Added iPad as a targeted device, thank you sansari (https://github.com/sansari)
 
 ### 0.3.0: Mar 12, 2011 ###
 * Modified catch-all based: https://github.com/brendanlim/mobile-fu

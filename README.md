@@ -23,10 +23,10 @@ advanced capabilities - for example and iPhone or Android phone.
 Targeted mobile devices are detected via a `Regexp` applied against
 the HTTP User-Agent header.
 
-By default, the targeted devices are iPhone, Android and iPod. If a
-targeted device is detected, the token match from the regular
-expression will be the value passed in the `X_MOBILE_DEVICE` header,
-i.e.: `X_MOBILE_DEVICE: iPhone`
+By default, the targeted devices are iPhone, iPad, Android and
+iPod. If a targeted device is detected, the token match from the
+regular expression will be the value passed in the `X_MOBILE_DEVICE`
+header, i.e.: `X_MOBILE_DEVICE: iPhone`
 
 
 ### UAProf Detection ###
